@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -12,6 +12,9 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
+    let boards = [{ title: "grocery list" }, { title: "world domination" }];
+
+    return queryInterface.bulkInsert("Boards", boards);
   },
 
   down: (queryInterface, Sequelize) => {
