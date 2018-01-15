@@ -4,6 +4,8 @@ const app = express();
 //isomorphic-fetch and es-6 promise
 require("es6-promise").polyfill();
 require("isomorphic-fetch");
+const models = require("./models");
+const Board = models.Board;
 
 // ----------------------------------------
 // App Variables
@@ -87,16 +89,23 @@ app.use(morganToolkit());
 // ----------------------------------------
 // Routes
 // ----------------------------------------
-// app.use("/", (req, res) => {
-//   req.flash("Hi!");
-//   res.render("welcome/index");
-// });
 
-app.get("/", async (req, res, next) => {
-  let boards = await Boards.findAll();
-  console.log("Boards is here:");
-  console.log(boards);
-  res.json(boards);
+app.get("/api/boards", async (req, res, next) => {
+  try {
+    let boards = await Board.findAll();
+    res.json(boards);
+  } catch (e) {
+    console.log("ERROR => ", e);
+  }
+});
+
+app.get("/api/boards/:id/delete", async (req, res, next) => {
+  console.log("hi from server delete route");
+  Board.destroy({
+    where: { id: req.params.id },
+    limit: 1
+  });
+  res.send("Board Deleted.");
 });
 
 // ----------------------------------------

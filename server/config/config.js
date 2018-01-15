@@ -10,14 +10,14 @@ module.exports = {
   test: {
     username: process.env.POSTGRES_USERNAME,
     password: process.env.POSTGRES_USERNAME,
-    database: "database_test",
+    database: "djello_test",
     host: "127.0.0.1",
     dialect: "postgres"
   },
   production: {
     username: process.env.POSTGRES_USERNAME,
     password: process.env.POSTGRES_USERNAME,
-    database: "database_production",
+    database: "djello_production",
     host: "127.0.0.1",
     dialect: "postres"
   }
