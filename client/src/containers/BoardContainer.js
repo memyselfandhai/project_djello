@@ -29,8 +29,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getBoards: () => {
       dispatch(getBoards());
     },
-    deleteBoard: () => {
-      dispatch(deleteBoard());
+    deleteBoard: e => {
+      console.log("e in map to dispatch", e);
+      dispatch(deleteBoard(e));
     }
   };
 };

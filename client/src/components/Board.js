@@ -17,7 +17,7 @@ class Boards extends Component {
     return (
       <div>
         {boardList}
-        <button className="btn btn-primary btn-sm">New Board</button>
+        {/* <button className="btn btn-primary btn-sm">New Board</button> */}
       </div>
     );
   }

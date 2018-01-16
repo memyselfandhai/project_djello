@@ -24,6 +24,8 @@ if (process.env.NODE_ENV !== "production") {
 // ----------------------------------------
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
+// needed in order to receive data from fetch
+app.use(bodyParser.json());
 
 // ----------------------------------------
 // Sessions/Cookies
@@ -43,12 +45,6 @@ app.use((req, res, next) => {
   res.locals.session = req.session;
   next();
 });
-
-// ----------------------------------------
-// Flash Messages
-// ----------------------------------------
-const flash = require("express-flash-messages");
-app.use(flash());
 
 // ----------------------------------------
 // Method Override
@@ -90,6 +86,8 @@ app.use(morganToolkit());
 // Routes
 // ----------------------------------------
 
+// ----    GETTING BOARDS   ------- //
+
 app.get("/api/boards", async (req, res, next) => {
   try {
     let boards = await Board.findAll();
@@ -99,6 +97,16 @@ app.get("/api/boards", async (req, res, next) => {
   }
 });
 
+// ----    CREATE BOARD   ------- //
+
+app.post("/api/boards", async (req, res, next) => {
+  await Board.create(req.body);
+  let boards = await Board.findAll();
+  res.json(boards);
+});
+
+// ----    DELETE BOARD   ------- //
+
 app.get("/api/boards/:id/delete", async (req, res, next) => {
   console.log("hi from server delete route");
   Board.destroy({
@@ -107,21 +115,6 @@ app.get("/api/boards/:id/delete", async (req, res, next) => {
   });
   res.send("Board Deleted.");
 });
-
-// ----------------------------------------
-// Template Engine
-// ----------------------------------------
-const expressHandlebars = require("express-handlebars");
-const helpers = require("./helpers");
-
-const hbs = expressHandlebars.create({
-  helpers: helpers,
-  partialsDir: "views/",
-  defaultLayout: "application"
-});
-
-app.engine("handlebars", hbs.engine);
-app.set("view engine", "handlebars");
 
 // ----------------------------------------
 // Server

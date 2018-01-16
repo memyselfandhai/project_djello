@@ -7,7 +7,7 @@ const BoardCard = ({ board, onClick }) => {
         <h4>{board.title}</h4>
         <button
           className="btn btn-danger btn-sm"
-          value="Delete"
+          value={board.id}
           //changed: wrapped in anon fn
           onClick={() => {
             console.log("inside onClick", board.id);

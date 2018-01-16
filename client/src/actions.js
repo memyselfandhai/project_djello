@@ -38,6 +38,10 @@ export function deleteResourceFailure(error) {
   };
 }
 
+// ----------------------------------------
+// Getting Boards
+// ----------------------------------------
+
 export function getBoards() {
   return dispatch => {
     dispatch(getResourceRequest());
@@ -58,11 +62,39 @@ export function getBoards() {
   };
 }
 
-// export function addBoard() {
-//   return dispatch => {
-//     fetch("/api/boards");
-//   };
-// }
+// ----------------------------------------
+// Create a New Board
+// ----------------------------------------
+
+export function createBoard(form) {
+  return dispatch => {
+    console.log("form => ", form);
+
+    const options = {
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+      body: JSON.stringify(form)
+    };
+
+    fetch("/api/boards", options)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`${response.status} ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(getResourceSuccess(json));
+      })
+      .catch(error => {
+        dispatch(getResourceFailure(error));
+      });
+  };
+}
+
+// ----------------------------------------
+// Delete a Board
+// ----------------------------------------
 
 export function deleteBoard(id) {
   console.log("board id from actions.js => ", id);
