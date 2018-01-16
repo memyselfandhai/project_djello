@@ -28,7 +28,11 @@ export function boards(state = initialState, action) {
         error: action.error
       };
     case Actions.DELETE_RESOURCE_SUCCESS:
-      return { ...state };
+      return {
+        ...state,
+        boards: action.data,
+        isFetching: false
+      };
     default:
       return state;
   }

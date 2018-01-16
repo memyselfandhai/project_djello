@@ -97,17 +97,23 @@ export function createBoard(form) {
 // ----------------------------------------
 
 export function deleteBoard(id) {
-  console.log("board id from actions.js => ", id);
+  const options = {
+    headers: { "Content-Type": "application/json" },
+    method: "DELETE"
+  };
+
   return dispatch => {
-    // change api route so its restful
-    fetch(`/api/boards/${id}/delete`)
+    fetch(`/api/boards/${id}`, options)
       .then(response => {
         if (!response.ok) {
           throw new Error(`${response.status} ${response.statusText}`);
         }
+        return response.json();
       })
       .then(json => {
-        dispatch(deleteResourceSuccess(json));
+        console.log("json => ", json);
+        // doesnt work with deleteResourceSuccess?
+        dispatch(getResourceSuccess(json));
       })
       .catch(error => {
         dispatch(deleteResourceFailure(error));

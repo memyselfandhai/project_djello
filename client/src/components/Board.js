@@ -8,18 +8,14 @@ class Boards extends Component {
     }
 
     const { boards, error } = this.props.boards;
+    console.log("boards in boards comp => ", boards);
     let boardList = boards.map(board => {
       return (
         <BoardCard board={board} key={board.id} onClick={this.props.onClick} />
       );
     });
 
-    return (
-      <div>
-        {boardList}
-        {/* <button className="btn btn-primary btn-sm">New Board</button> */}
-      </div>
-    );
+    return <div>{boardList}</div>;
   }
 }
 

@@ -76,11 +76,24 @@ app.use(express.static(`${__dirname}/public`));
 // Logging
 // ----------------------------------------
 const morgan = require("morgan");
-const morganToolkit = require("morgan-toolkit")(morgan, {
-  req: ["cookies" /*, 'signedCookies' */]
-});
+const morganToolkit = require("morgan-toolkit")(morgan);
 
 app.use(morganToolkit());
+
+// ----------------------------------------
+// Template Engine
+// ----------------------------------------
+const expressHandlebars = require("express-handlebars");
+const helpers = require("./helpers");
+
+const hbs = expressHandlebars.create({
+  helpers: helpers,
+  partialsDir: "views/",
+  defaultLayout: "application"
+});
+
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
 
 // ----------------------------------------
 // Routes
@@ -107,13 +120,17 @@ app.post("/api/boards", async (req, res, next) => {
 
 // ----    DELETE BOARD   ------- //
 
-app.get("/api/boards/:id/delete", async (req, res, next) => {
-  console.log("hi from server delete route");
-  Board.destroy({
-    where: { id: req.params.id },
-    limit: 1
-  });
-  res.send("Board Deleted.");
+app.delete("/api/boards/:id", async (req, res, next) => {
+  try {
+    await Board.destroy({
+      where: { id: req.params.id },
+      limit: 1
+    });
+    let boards = await Board.findAll();
+    res.json(boards);
+  } catch (e) {
+    console.log("ERROR => ", e);
+  }
 });
 
 // ----------------------------------------
@@ -144,6 +161,8 @@ app.use((err, req, res, next) => {
   if (err.stack) {
     err = err.stack;
   }
+
+  console.log("ERROR => ", err);
   res.status(500).render("errors/500", { error: err });
 });
 

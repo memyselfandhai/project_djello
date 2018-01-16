@@ -10,8 +10,6 @@ const BoardCard = ({ board, onClick }) => {
           value={board.id}
           //changed: wrapped in anon fn
           onClick={() => {
-            console.log("inside onClick", board.id);
-            console.log(onClick);
             onClick(board.id);
           }}
         >
