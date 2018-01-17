@@ -14,7 +14,7 @@ class BoardsContainer extends Component {
       <Boards
         boards={boards}
         isFetching={isFetching}
-        onClick={this.props.deleteBoard}
+        deleteBoard={this.props.deleteBoard}
       />
     );
   }

@@ -133,6 +133,32 @@ app.delete("/api/boards/:id", async (req, res, next) => {
   }
 });
 
+// ----    DELETE BOARD   ------- //
+
+app.delete("/api/boards/:id", async (req, res, next) => {
+  try {
+    await Board.update({ title: req.body }, { where: { id: req.id } });
+    let boards = await Board.findAll();
+    res.json(boards);
+  } catch (e) {
+    console.log("ERROR => ", e);
+  }
+});
+
+// ----    DELETE BOARD   ------- //
+
+app.patch("/api/boards/:id", async (req, res, next) => {
+  try {
+    console.log("************");
+    console.log("got to patch");
+    await Board.update({ title: req.body }, { where: { id: req.id } });
+    let boards = await Board.findAll();
+    res.json(boards);
+  } catch (e) {
+    console.log("ERROR => ", e);
+  }
+});
+
 // ----------------------------------------
 // Server
 // ----------------------------------------

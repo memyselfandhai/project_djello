@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import BoardCard from "./BoardCard";
+import AddBoardContainer from "../containers/AddBoardContainer";
 
 class Boards extends Component {
   render() {
@@ -11,11 +12,20 @@ class Boards extends Component {
     console.log("boards in boards comp => ", boards);
     let boardList = boards.map(board => {
       return (
-        <BoardCard board={board} key={board.id} onClick={this.props.onClick} />
+        <BoardCard
+          board={board}
+          key={board.id}
+          deleteBoard={this.props.deleteBoard}
+        />
       );
     });
 
-    return <div>{boardList}</div>;
+    return (
+      <div>
+        {boardList} <br />
+        <AddBoardContainer />
+      </div>
+    );
   }
 }
 

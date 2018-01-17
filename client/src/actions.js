@@ -111,8 +111,35 @@ export function deleteBoard(id) {
         return response.json();
       })
       .then(json => {
-        console.log("json => ", json);
         // doesnt work with deleteResourceSuccess?
+        dispatch(getResourceSuccess(json));
+      })
+      .catch(error => {
+        dispatch(deleteResourceFailure(error));
+      });
+  };
+}
+
+// ----------------------------------------
+// Edit a Board
+// ----------------------------------------
+
+export function editBoard(id) {
+  console.log("hi from actions");
+  const options = {
+    headers: { "Content-Type": "application/json" },
+    method: "PATCH"
+  };
+
+  return dispatch => {
+    fetch(`/api/boards/${id}`, options)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`${response.status} ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(json => {
         dispatch(getResourceSuccess(json));
       })
       .catch(error => {
